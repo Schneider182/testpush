@@ -18,7 +18,34 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        android.view.Window window = getWindow();
+        window.setStatusBarColor(android.graphics.Color.TRANSPARENT);
+        window.setNavigationBarColor(android.graphics.Color.TRANSPARENT);
+
+        androidx.core.view.WindowCompat.setDecorFitsSystemWindows(
+                window, false
+        );
+
+        androidx.core.view.WindowInsetsControllerCompat controller =
+                androidx.core.view.WindowCompat.getInsetsController(
+                        window, window.getDecorView()
+                );
+
+        controller.setAppearanceLightStatusBars(false);
+        controller.setAppearanceLightNavigationBars(false);
+
         setContentView(R.layout.activity_login);
+
+        android.content.SharedPreferences preferences =
+                getSharedPreferences("WMWeatherPrefs", MODE_PRIVATE);
+
+        if (preferences.getBoolean("isLoggedIn", false)) {
+            Intent intent = new Intent(LoginActivity.this, LocationActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
 
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
@@ -29,15 +56,33 @@ public class LoginActivity extends AppCompatActivity {
             String username = etUsername.getText().toString().trim();
             String password = etPassword.getText().toString();
 
+            if (username.isEmpty() || password.isEmpty()) {
+                new android.app.AlertDialog.Builder(LoginActivity.this)
+                        .setTitle("Login Gagal")
+                        .setMessage("Username dan password wajib diisi.")
+                        .setPositiveButton("OK", null)
+                        .show();
+                return;
+            }
+
             if (username.equals("tes") && password.equals("1234")) {
+                preferences.edit()
+                        .putBoolean("isLoggedIn", true)
+                        .apply();
+
                 Intent intent = new Intent(
                         LoginActivity.this,
-                        MainActivity.class
+                        LocationActivity.class
                 );
+
                 startActivity(intent);
                 finish();
             } else {
-                txtMessage.setText("Username atau password salah!");
+                new android.app.AlertDialog.Builder(LoginActivity.this)
+                        .setTitle("Login Gagal")
+                        .setMessage("Username atau password salah.")
+                        .setPositiveButton("OK", null)
+                        .show();
             }
         });
     }

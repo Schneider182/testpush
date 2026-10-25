@@ -2,8 +2,25 @@ plugins {
     alias(libs.plugins.android.application)
 }
 
+def envFile = rootProject.file(".env")
+def envValues = [:]
+
+if (envFile.exists()) {
+    envFile.eachLine { line ->
+        line = line.trim()
+
+        if (line && !line.startsWith("#") && line.contains("=")) {
+            def parts = line.split("=", 2)
+            envValues[parts[0].trim()] = parts[1].trim()
+        }
+    }
+}
+
+def weatherApiKey = envValues.get("OPENWEATHER_API_KEY", "")
+
 android {
     namespace 'com.daffa.myapplication'
+
     compileSdk {
         version = release(37)
     }
@@ -16,6 +33,12 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "OPENWEATHER_API_KEY", "\"${weatherApiKey}\""
+    }
+
+    buildFeatures {
+        buildConfig true
     }
 
     buildTypes {
@@ -25,6 +48,7 @@ android {
             }
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
@@ -37,6 +61,8 @@ dependencies {
     implementation libs.constraintlayout
     implementation libs.material
     implementation 'com.google.code.gson:gson:2.13.1'
+    implementation 'com.google.android.gms:play-services-location:21.3.0'
+
     testImplementation libs.junit
     androidTestImplementation libs.espresso.core
     androidTestImplementation libs.ext.junit

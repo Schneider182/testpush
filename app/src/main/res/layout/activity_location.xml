@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MyCuaca"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pilih lokasi untuk melihat cuaca"
+            android:textSize="16sp"
+            android:layout_marginBottom="24dp" />
+
+        <Button
+            android:id="@+id/btnCurrentLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gunakan Lokasi Saat Ini" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ATAU"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="12dp" />
+
+        <EditText
+            android:id="@+id/inputKota"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Masukkan nama kota"
+            android:inputType="textCapWords"
+            android:singleLine="true" />
+
+        <Button
+            android:id="@+id/btnCariKota"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cari Cuaca"
+            android:layout_marginTop="12dp" />
+
+        <TextView
+            android:id="@+id/txtKoordinat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_marginTop="20dp"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+</ScrollView>
